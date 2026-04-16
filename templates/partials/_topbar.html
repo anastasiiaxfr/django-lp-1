@@ -1,0 +1,50 @@
+ <div class="sub-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <ul class="info">
+            <li><i class="fa fa-envelope"></i> info@company.com</li>
+            <li><i class="fa fa-map"></i> Sunny Isles Beach, FL 33160</li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-4 d-flex justify-content-end align-items-center">
+          <ul class="me-4 d-flex gap-3">
+            {% if user.is_authenticated %}
+              <li class="nav-item mr-3">
+                <a class="nav-link" href="{% url 'logout' %}">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            {% else %}
+              <li
+              {% if 'register' in request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+              >
+                <a class="nav-link" href="{% url 'register' %}">
+                  <i class="fas fa-user-plus"></i> Register</a>
+              </li>
+              <li
+              {% if 'login' in request.path %}
+                class="nav-item active mr-3"
+              {% else %}
+                class="nav-item mr-3"
+              {% endif %}
+              >
+                <a class="nav-link" href="{% url 'login' %}">
+                  <i class="fas fa-sign-in-alt"></i> Login</a>
+              </li>
+            {% endif %}
+          </ul>
+          <ul class="social-links">
+            <li><a href="#" target="_blank"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

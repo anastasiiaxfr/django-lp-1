@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="breadcrumb"><a href="{% url 'index' %}">Home</a> / Register</span>
+          <h3>Register</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="my-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="contact-form">
+            <form action="{% url 'register' %}" method="POST">
+              {% csrf_token %}
+              
+              {% if messages %}
+                {% for message in messages %}
+                  <div
+              class="alert {% if 'error' in message.tags %} alert-danger {% elif 'success' in message.tags %} alert-success {% elif 'warning' in message.tags %} alert-warning {% else %} alert-info {% endif %} alert-dismissible fade show"
+              role="alert"
+            >
+              {{ message }}
+
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+              ></button>
+            </div>
+                {% endfor %}
+              {% endif %}
+
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                  <div class="text-danger">{{ form.first_name.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                  <div class="text-danger">{{ form.last_name.errors }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                  <div class="text-danger">{{ form.username.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <div class="text-danger">{{ form.email.errors }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                  <div class="text-danger">{{ form.password1.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                  <div class="text-danger">{{ form.password2.errors }}</div>
+                {% endif %}
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Register</button>
+              <p class="mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-hide alerts after 2 seconds
+    setTimeout(function() {
+      var alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        var bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+      });
+    }, 2000);
+  </script>
+{% endblock %}

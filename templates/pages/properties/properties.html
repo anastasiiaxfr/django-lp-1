@@ -1,0 +1,139 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load humanize %}
+{% block title %}Properties{% endblock %}
+{% block content %}
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="breadcrumb"><a href="#">Home</a> / Properties</span>
+          <h3>Properties</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section properties">
+    <div class="container">
+      <ul class="properties-filter d-none">
+        <li>
+          <a class="is_active" href="#!" data-filter="*">Show All</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".adv">Apartment</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".str">Villa House</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".rac">Penthouse</a>
+        </li>
+      </ul>
+
+      <h2 class="text-center mb-4">Property searching just got so easy</h2>
+      <form action="{% url 'search' %}" method="get">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 align-self-center mb-3">
+            <input type="text" name="keywords" class="form-control" placeholder="Search by keyword...">
+          </div>
+             <div class="col-lg-4 col-md-6 align-self-center mb-3">
+            <input type="text"  name="city" class="form-control" placeholder="City">
+          </div>
+          <div class="col-lg-4 col-md-6 align-self-center mb-3">
+            <select name="property_type" class="form-control">
+{% for key, value in property_type.items %}
+              <option value="{{ key }}" {% if request.GET.property_type == key %}selected{% endif %}>{{ value }}</option>
+{% endfor %}
+            </select>
+          </div>
+          {% comment %} <div class="col-lg-4 col-md-6 align-self-center mb-3">
+             <select name="price" class="form-control" placeholder="Price">
+{% for key, value in price_choices.items %}
+              <option value="{{ key }}" {% if request.GET.price == key %}selected{% endif %}>{{ value }}</option>
+{% endfor %}
+            </select>
+          </div> {% endcomment %}
+          <div class="col-sm-12 align-self-center my-2">
+            <button type="submit" class="btn btn-primary btn-block w-100">Search</button>
+          </div>
+        </div>
+      </form>
+
+
+      <div class="row properties-box">
+        {% if properties %}
+          {% for property in properties %}
+            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 {{ property.property_type|lower }}">
+              <div class="item">
+                <a href="{% url 'property' property.id %}"><img src="{{ property.thumbnail.url }}" alt=""></a>
+                <span class="category">{{ property.property_type }}</span>
+                <h6>${{ property.price|floatformat:0|intcomma }}</h6>
+                <h4><a href="{% url 'property' property.id %}">{{ property.title }}</a></h4>
+                <ul>
+                  <li>Bedrooms: <span>{{ property.bedrooms }}</span></li>
+                  <li>Bathrooms: <span>{{ property.bathrooms }}</span></li>
+                  <li>Area: <span>{{ property.area }}m2</span></li>
+                  <li>Floor: <span>{{ property.floor }}</span></li>
+                  <li>Parking: <span>{{ property.parking }} spots</span></li>
+                </ul>
+                <div class="main-button">
+                  <a href="{% url 'property' property.id %}">Schedule a visit</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12">
+            <h4>No properties found.</h4>
+          </div>
+        {% endif %}
+
+        {% comment %} <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv">
+          <div class="item">
+            <a href="property-details.html"><img src="{% static 'assets/images/property-01.jpg' %}" alt=""></a>
+            <span class="category">Luxury Villa</span>
+            <h6>$2.264.000</h6>
+            <h4><a href="property-details.html">18 Old Street Miami, OR 97219</a></h4>
+            <ul>
+              <li>Bedrooms: <span>8</span></li>
+              <li>Bathrooms: <span>8</span></li>
+              <li>Area: <span>545m2</span></li>
+              <li>Floor: <span>3</span></li>
+              <li>Parking: <span>6 spots</span></li>
+            </ul>
+            <div class="main-button">
+              <a href="property-details.html">Schedule a visit</a>
+            </div>
+          </div>
+        </div> {% endcomment %}
+       
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          {% if properties.has_other_pages %}
+          <ul class="pagination">
+            <li><a href="?page=1">&laquo; First</a></li>
+            {% if properties.has_previous %}
+              <li><a href="?page={{ properties.previous_page_number }}">&lsaquo;</a></li>
+            {% endif %}
+            {% for page in page_range %}
+            {% if properties.number == page %}
+              <li><a class="is_active" href="?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+            <li><a class="" href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if properties.has_next %}
+              <li><a href="?page={{ properties.next_page_number }}">></a></li>
+            {% endif %}
+            <li><a href="?page={{ properties.paginator.num_pages }}"> &raquo;</a></li>
+          </ul>
+          {% endif %}
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

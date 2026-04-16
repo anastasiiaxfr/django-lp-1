@@ -1,0 +1,23 @@
+#header, .module h2, .module caption, .inline-group h2 {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+div.breadcrumbs {
+    background-color: #f35525;
+    color: #fff;
+}
+
+a:link, a:visited {
+    color: #1e1e1e;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background-color: #f35525;
+    color: #fff;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+     background-color: #1e1e1e;
+    color: #fff;
+}
